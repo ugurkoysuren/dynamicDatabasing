@@ -21,7 +21,7 @@ public class RoutingTestConfiguration {
         return new JdbcTemplate(dataSource);
     }
 
-    @Bean
+    @Autowired
     public ClientService clientService() {
         return new ClientService(new ClientDao(clientDatasource()));
     }
@@ -29,16 +29,12 @@ public class RoutingTestConfiguration {
     @Bean
     public DataSource clientDatasource() {
         Map<Object, Object> targetDataSources = new HashMap<>();
-        DataSource clientADatasource = postgresqlSource();
-        DataSource clientBDatasource = mysqlDataSource();
-        targetDataSources.put(DBTypeEnum.MYSQL,clientADatasource);
-        targetDataSources.put(DBTypeEnum.POSTGRESQL,clientBDatasource);
-
-
+        targetDataSources.put(DBTypeEnum.POSTGRESQL,postgresqlSource());
+        targetDataSources.put(DBTypeEnum.MYSQL,mysqlDataSource());
         ClientDataSourceRouter clientRoutingDatasource
                 = new ClientDataSourceRouter();
         clientRoutingDatasource.setTargetDataSources(targetDataSources);
-        clientRoutingDatasource.setDefaultTargetDataSource(clientADatasource);
+        clientRoutingDatasource.setDefaultTargetDataSource(targetDataSources.get(DBTypeEnum.POSTGRESQL));
         return clientRoutingDatasource;
     }
 

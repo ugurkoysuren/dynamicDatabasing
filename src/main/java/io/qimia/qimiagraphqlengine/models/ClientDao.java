@@ -2,12 +2,16 @@ package io.qimia.qimiagraphqlengine.models;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * Database access code for datasource routing example.
  */
+@Repository
 public class ClientDao {
 
     private static final String SQL_GET_CLIENT_NAME = "SELECT *\n" +
@@ -18,7 +22,7 @@ public class ClientDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public ClientDao(DataSource datasource) {
+    public ClientDao(@Qualifier("clientDatasource") DataSource datasource) {
         this.jdbcTemplate = new JdbcTemplate(datasource);
     }
 

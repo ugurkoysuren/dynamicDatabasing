@@ -3,8 +3,11 @@ package io.qimia.qimiagraphqlengine.service;
 import io.qimia.qimiagraphqlengine.models.ClientDao;
 import io.qimia.qimiagraphqlengine.models.DBTypeEnum;
 import io.qimia.qimiagraphqlengine.utils.ClientDatabaseContextHolder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ClientService {
+
 
     private final ClientDao clientDao;
 
